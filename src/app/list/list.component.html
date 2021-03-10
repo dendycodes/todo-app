@@ -1,0 +1,154 @@
+<section class="heading-section">
+  <h1 @fade class="title is-1 has-text-centered">
+    To do list <i class="material-icons"> done </i>
+  </h1>
+</section>
+<label class="label" id="lgn" *ngIf="!isSignedIn" @fade-left class="label">
+  <a (click)="activeLogin()">Login</a> or
+  <a (click)="activeSignup()">Signup</a> to save your list
+</label>
+
+<section *ngIf="isSignedIn" @fade-left class="label" id="logout">
+  <span class="material-icons"> account_circle </span>
+  {{ userEmail }}
+  <span [matMenuTriggerFor]="menu" id="down" class="material-icons">
+    arrow_drop_down
+  </span>
+</section>
+
+<mat-menu id="menu" #menu="matMenu">
+  <button (click)="Signout()" class="logoutbtn" mat-menu-item>Sign-out</button>
+</mat-menu>
+
+<div @fade class="modal" id="login">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <h1>Login</h1>
+    <div class="field">
+      <input class="input" #loginemail type="email" placeholder="Email" />
+    </div>
+    <div class="field">
+      <input
+        class="input"
+        #loginpassword
+        type="password"
+        placeholder="Password"
+      />
+    </div>
+    <div class="field">
+      <p class="control">
+        <button
+          on
+          class="button"
+          (click)="onSignin(loginemail.value, loginpassword.value)"
+          id="loginbtn"
+        >
+          Login
+        </button>
+      </p>
+      <label id="message"></label>
+    </div>
+  </div>
+  <button
+    class="modal-close is-large"
+    (click)="deactiveLogin()"
+    aria-label="close"
+  ></button>
+</div>
+
+<div class="modal" id="signup">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <h1>Sign-up</h1>
+    <div class="field">
+      <input class="input" #email type="email" placeholder="Email" />
+    </div>
+    <div class="field">
+      <input class="input" #password type="password" placeholder="Password" />
+    </div>
+
+    <div class="field">
+      <p class="control">
+        <button
+          (click)="onSignup(email.value, password.value)"
+          class="button"
+          id="loginbtn"
+        >
+          Signup
+        </button>
+      </p>
+      <label id="message"></label>
+    </div>
+  </div>
+  <button
+    class="modal-close is-large"
+    (click)="deactiveSignup()"
+    aria-label="close"
+  ></button>
+</div>
+
+<div class="container">
+  <div class="add-todo-box">
+    <h2 id="titlee" class="title" is-5>New Task</h2>
+
+    <div class="field is-grouped">
+      <p class="control is-expanded">
+        <input
+          [(ngModel)]="item"
+          class="input"
+          type="text"
+          #textbox
+          placeholder="Add a new task here"
+        />
+      </p>
+      <p class="control">
+        <button
+          [disabled]="!item"
+          (click)="addItem(); textbox.value = ''"
+          class="button"
+        >
+          <i class="material-icons">add</i>
+
+          Add
+        </button>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div
+  @fade
+  *ngFor="let item of getItems(); let i = index"
+  class="container"
+  id="container"
+>
+  <div class="round">
+    <input
+      (click)="updateStatus(item.id, item.data.status, i)"
+      type="checkbox"
+      id="{{ item.id }}"
+      [checked]="item.data.status"
+    />
+    <label for="{{ item.id }}"></label>
+  </div>
+  <textarea
+    id="{{ item.id }}textarea"
+    disabled
+    for="checkbox"
+    (keyup)="changing()"
+    class="text"
+    >{{ item.data.item }}</textarea
+  >
+  <div class="button-container">
+    <button (click)="deleteItem(item.id, i)" class="buttons">
+      <span class="material-icons fix"> delete </span>
+    </button>
+    <!-- <button
+      (click)="setDisabledValue(item.id, i)"
+      id="{{ item.id }}button"
+      class="buttons"
+    >
+      <span class="material-icons fix"> create </span>
+    </button> -->
+  </div>
+</div>
