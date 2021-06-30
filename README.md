@@ -1,4 +1,4 @@
-# ToDo <a href="https://dm-todo.netlify.app/" style={{backgroundColor:"black, color:"white"}} > Todo-List Application <a/>
+# ToDo <a href="https://dm-todo.netlify.app/" style="background-color: black; color: white;"> Todo-List Application <a/>
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.1.
 
